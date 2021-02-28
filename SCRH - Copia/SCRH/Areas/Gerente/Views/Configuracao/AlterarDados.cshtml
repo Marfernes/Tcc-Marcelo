@@ -1,0 +1,70 @@
+﻿@model SCRH.Models.Usuario
+@{
+    ViewBag.Title = "Alterar Dados";
+}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-info">
+            <h3 class="card-title mt-0">
+                Alterar Dados
+            </h3>
+        </div>
+        <div class="card-body mt-3">
+            @using (Html.BeginForm("AlterarDados", "Configuracao", FormMethod.Post, new { }))
+            {
+                @Html.HiddenFor(x => x.UsuarioId)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Nome</label>
+                            @Html.TextBoxFor(x => x.Nome, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Login</label>
+                            @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Senha</label>
+                            <input type="password" id="Senha" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Confirmar Senha</label>
+                            <input type="password" id="confirmacaosenha" class="form-control" />
+                            <div class="msg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" mt-2">
+                    <a href="@Url.Action("Index","Home", new { area = "Gerente"})" class="btn btn-secondary">Fechar</a>
+                    <button type="submit" class="btn btn-info btn-alterardados float-right">Salvar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(document).on("keyup", "#confirmacaosenha", function () {
+                var senha = $("#Senha").val();
+                var confirmacaosenha = $("#confirmacaosenha").val();
+                if (senha === confirmacaosenha) {
+                    $(".msg").empty();
+                    $(".btn-alterardados").removeAttr("disabled");
+                }
+                else {
+                    $(".btn-alterardados").attr("disabled", "disabled");
+                    $(".msg").html("<p style='color:red;'>As senhas são diferentes</p>");
+                }
+            });
+        });
+    </script>
+}

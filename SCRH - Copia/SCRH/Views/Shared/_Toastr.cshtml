@@ -1,0 +1,30 @@
+﻿@using SCRH.Helpers
+@{
+    var alerts = TempData.ContainsKey("Message") ? (List<Alert>)TempData["Message"] : new List<Alert>();
+    if (alerts.Any())
+    {
+    <script>
+            @{
+               foreach (var item in alerts)
+               {
+                   if (item.AlertStyle == "success")
+                   {
+                       @:Lobibox.notify('success', { position: 'top right', sound: '', delay: 3000, msg: '@item.Message', title: 'Sucesso', icon: 'smile icon' });
+                   }
+                   else if (item.AlertStyle == "error")
+                   {
+                       @:Lobibox.notify('error', { position: 'top right', sound: '', delay: 3000, msg: '@item.Message', title: 'Erro', icon: 'frown icon' });
+                   }
+                   else if (item.AlertStyle == "warning")
+                   {
+                       @:Lobibox.notify('warning', { position: 'top right', sound: '', delay: 3000, msg: '@item.Message', title: 'Alerta', icon: 'warning icon' });
+                   }
+                   else if (item.AlertStyle == "info")
+                   {
+                       @:Lobibox.notify('info', { position: 'top right', sound: '', delay: 3000, msg: '@item.Message', title: 'Informação', icon: 'info circleicon' });
+                   }
+               }
+           }
+    </script>
+    }
+}

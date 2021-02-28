@@ -1,0 +1,46 @@
+﻿@model SCRH.Models.Quarto
+
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="TituloModalCentralizado">Atualizar Quarto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("Atualizar", "Quarto", FormMethod.Post, new { }))
+            {
+                @Html.HiddenFor(x=>x.Id)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">@Html.DisplayNameFor(x => x.NumeroDoQuarto)</label>
+                            @Html.TextBoxFor(x => x.NumeroDoQuarto, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">@Html.DisplayNameFor(x => x.ValorDiaria)</label>
+                            @Html.TextBoxFor(x => x.ValorDiaria, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="bmd-label-floating">@Html.DisplayNameFor(x => x.CategoriaId)</label>
+                    @Html.TextBoxFor(x => x.Categoria.Nome, new { @class = "form-control", list = "listaCategoria", autocomplete = "off" })
+                    <datalist id="listaCategoria">
+                        @foreach (SCRH.Models.Categoria item in ViewBag.Categorias)
+                        {
+                            <option>@Html.DisplayFor(x => item.Nome)</option>
+                        }
+                    </datalist>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-info">Salvar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

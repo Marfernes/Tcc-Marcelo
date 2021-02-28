@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Quartos";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-info">
+            <h3 class="card-title mt-0">
+                Quartos <b>
+                    <a href="javascript:;" class="btn-abrirModal" data-abrirmodal="@Url.Action("AbrirModalAdicionar", "Quarto", new { area = "Gerente"})" style="float: right; font-size: 17px;" data-toggle="Adicionar" title="Adicionar">
+                        <i class="material-icons fa-2x">add</i>
+                    </a>
+                </b>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="carregar-itens" data-url="@Url.Action("BuscarQuarto", "Quarto", new { area = "Gerente" })">
+                @Html.Partial("_PartialTabela")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade abrir-modal"></div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/carregar-modal")
+    @*@Scripts.Render("~/bundles/evento-ativo")*@
+    @Scripts.Render("~/bundles/buscar-paginacao")
+}

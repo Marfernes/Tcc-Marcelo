@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRH</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    @Styles.Render("~/Content/layout-externo")
+    @Styles.Render("~/Content/lobibox")
+</head>
+<body>
+    @Html.Partial("_MenuTopoExterno")
+
+    <main class="py-4 main">
+        @RenderBody()
+    </main>
+
+    @Scripts.Render("~/bundles/layout-externo")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/lobibox")
+    @Scripts.Render("~/bundles/loading")
+    @RenderSection("scripts", required: false)
+    @Html.Partial("_Toastr")
+</body>
+</html>

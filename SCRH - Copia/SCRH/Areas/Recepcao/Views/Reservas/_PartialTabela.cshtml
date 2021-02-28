@@ -1,0 +1,112 @@
+﻿@using SCRH.Models
+@using PagedList.Mvc
+@model PagedList.PagedList<Quarto>
+@{
+    var paginaAtual = (int)TempData["Pagina"];
+}
+
+<div class="table-responsive">
+    @if (Model != null && Model.Any())
+    {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <b>Nº</b>
+                </th>
+                <th>
+                    <b>Cliente</b>
+                </th>
+                <th>
+                    <b>Valor</b>
+                </th>
+                <th class="text-center">
+                    <b>Checkin</b>
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var quarto in Model)
+            {
+                foreach (var item in quarto.Reservas.Where(x => x.DataDeSaida == null &&!x.Excluido))
+                {
+                    <tr>
+                        <td>
+                            <b>@Html.DisplayFor(modelItem => quarto.NumeroDoQuarto)</b>
+                            <div class="small">
+                                @Html.DisplayFor(modelItem => quarto.Categoria.Nome)
+                            </div>
+                        </td>
+                        <td>
+                            @(item.Usuario?.ToString())
+                            <div class="small">
+                                @(string.Format("De {0} a {1}", item.Data.ToShortDateString(), item.DataFinal.ToShortDateString()))
+                            </div>
+                        </td>
+                        <td>
+                            @(item.ValorFinal().ToString("C2"))
+                            <div class="small">
+                                @(string.Format("{0}x {1}/dia", item.QuantidadeDiarias(), item.Valor.ToString("C2")))
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            @if (item.IsCheckin())
+                            {
+                                @Html.DisplayFor(x => item.DataDeEntrada)
+                            }
+                            else
+                            {
+                                <span>Não</span>
+                            }
+                        </td>
+                        <td class="text-right">
+                            @if (item.IsCheckin())
+                            {
+                                <button type="button" id="btn-atualizar" data-abrirmodal="@Url.Action("AbrirModalConsumo", "Reservas", new { reservaId = item.Id, quartoId=quarto.Id })" class="btn btn-default btn-fab btn-round mr-2 btn-abrirModal" data-toggle="tooltip" title="Consumo">
+                                    <i class="material-icons">post_add</i>
+                                </button>
+
+                                <button type="button" id="btn-ativo" data-ativo="@Url.Action("CheckInOut", "Reservas", new { id = item.Id, quartoId=quarto.Id })" class="btn btn-default btn-fab btn-round mr-2 btn-ativo" data-toggle="tooltip" title="CheckOut">
+                                    <i class="material-icons">settings_power</i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" id="btn-ativo" data-ativo="@Url.Action("CheckInOut", "Reservas", new { id = item.Id, quartoId=quarto.Id })" class="btn btn-default btn-fab btn-round mr-2 btn-ativo" data-toggle="tooltip" title="CheckIn">
+                                    <i class="material-icons">login</i>
+                                </button>
+                            }
+                            <button type="button" id="btn-atualizar" data-abrirmodal="@Url.Action("AbrirModalAtualizar", "Reservas", new { id = item.Id, quartoId=quarto.Id })" class="btn btn-default btn-fab btn-round mr-2 btn-abrirModal" data-toggle="tooltip" title="Atualizar">
+                                <i class="material-icons">create</i>
+                            </button>
+                            @if (!item.IsCheckin())
+                            {
+                                <button type="button" id="btn-excluir" data-abrirmodal="@Url.Action("AbrirModalExcluir", "Reservas", new { id = item.Id, quartoId=quarto.Id })" class="btn btn-default btn-fab btn-round btn-abrirModal" data-toggle="tooltip" title="Excluir">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    }
+    else
+    {
+        <div class="text-center">
+            <h3>Nenhuma Informação Encontrada!</h3>
+        </div>
+    }
+</div>
+
+
+<div class="row">
+    <div class="col-12 mt-5">
+        <div id="pageLink" class=" float-right" data-paginaatual="@paginaAtual" style="margin-top:-20px !important;">
+            @Html.PagedListPager(Model, pagina => Url.Action("BuscarReservas", "Reservas", new { pagina = pagina }), new PagedListRenderOptions { LinkToPreviousPageFormat = "«", LinkToNextPageFormat = "»" })
+        </div>
+    </div>
+</div>

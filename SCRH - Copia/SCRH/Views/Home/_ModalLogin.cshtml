@@ -1,0 +1,108 @@
+﻿@model SCRH.Models.Usuario
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <br>
+        <div class="bs-example bs-example-tabs">
+            <ul id="myTab" class="nav nav-pills nav-fill">
+                <li class="nav-item"><a href="#signin" class="nav-link active" data-toggle="tab">Login</a></li>
+                <li class="nav-item"><a href="#signup" class="nav-link" data-toggle="tab">Cadastrar</a></li>
+            </ul>
+        </div>
+        <div class="modal-body">
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane active in" id="signin">
+                    <div class="card">
+                        <div class="card-body">
+                            @using (Html.BeginForm("Entrar", "Home", FormMethod.Post, new { }))
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(x => x.Login, new { @class = "form-control", placeholder = "Login" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.PasswordFor(x => x.Senha, new { @class = "form-control", placeholder = "Senha" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-info" style="width: 100%;" type="submit">Entrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="signup">
+                    <div class="card">
+                        <div class="card-body">
+                            @using (Html.BeginForm("Cadastrar", "Home", FormMethod.Post, new { }))
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(x => x.Nome, new { @class = "form-control", placeholder = "Nome" })
+                                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "red-text" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(x => x.Login, new { @class = "form-control", placeholder = "Login" })
+                                            @Html.ValidationMessageFor(model => model.Login, "", new { @class = "red-text" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email" })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "red-text" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.PasswordFor(x => x.Senha, new { @class = "form-control cadastrar", placeholder = "Senha" })
+                                            @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "red-text" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="password" id="confirmacaosenha" class="form-control" placeholder="Confirmar Senha" />
+                                            <div class="msg"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-info btn-cadastrarlogin" disabled style="width: 100%;" type="submit">Cadastrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <center>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </center>
+        </div>
+    </div>
+</div>

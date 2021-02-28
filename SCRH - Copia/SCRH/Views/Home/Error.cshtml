@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Erro</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <style>
+        img {
+            max-width: 100vw;
+            height: auto;
+            width: auto;
+            max-height: 60vh;
+            display: block;
+            margin-top: 2rem;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .col-md-12 {
+            padding-right: 0px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12 text-center mt-5">
+            <div class="alert alert-secondary" role="alert">
+                <h3>Você não tem permissão para acessar essa página</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="~/imagens/Permissao_Negada.png" />
+            <button class="btn btn-info btn-lg mt-5 mb-5" id="voltar" onclick='history.go(-1)'>Voltar</button>
+        </div>
+    </div>
+</body>
+</html>

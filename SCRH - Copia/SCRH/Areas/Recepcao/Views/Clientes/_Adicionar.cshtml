@@ -1,0 +1,50 @@
+﻿@model SCRH.Models.Usuario
+
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="TituloModalCentralizado">Adicionar Usuário</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("Adicionar", "Clientes", FormMethod.Post, new { }))
+            {
+                @Html.Hidden("TipoUsuario",SCRH.Models.TipoUsuario.Usuario)
+                @Html.Hidden("Senha", "123456")
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="bmd-label-floating">Nome</label>
+                        @Html.TextBoxFor(x => x.Nome, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="bmd-label-floating">Login</label>
+                        @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="bmd-label-floating">Email</label>
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="bmd-label-floating">Documento</label>
+                        @Html.TextBoxFor(x => x.Documento, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <i class="text-secondary">Senha: 123456</i>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-info">Salvar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

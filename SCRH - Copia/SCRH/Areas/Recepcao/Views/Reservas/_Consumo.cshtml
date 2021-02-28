@@ -1,0 +1,127 @@
+﻿
+@model SCRH.Models.Reserva
+
+
+
+
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="TituloModalCentralizado">Adicionar Consumo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+
+            @using (Html.BeginForm("CadastrarConsumo", "Reservas", FormMethod.Post, new { }))
+            {
+                @Html.HiddenFor(x => x.UsuarioId)
+                @Html.Hidden("QuartoId", (object)ViewBag.QuartoId)
+                @Html.Hidden("ReservaId", (object)ViewBag.ReservaId)
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <label class="bmd-label-floating">Nome do produto</label>
+                        <input type="text" id="Produto" name="Produto" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bmd-label-floating">Valor unitário</label>
+                        <input type="text" id="Valor" name="Valor" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="bmd-label-floating">Quantidade</label>
+                        <input type="number" min="1" id="Quantidade" name="Quantidade" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-12 mt-3">
+                   <div class="table-responsive">
+                       <table class="table">
+                           <thead>
+                               <tr>
+                                   <th>Produto</th>
+                                   <th>Valor uni</th>
+                                   <th>Qtd</th>
+                                   <th>Total</th>
+                                   <th></th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               @foreach (var item in Model.Consumo)
+                               {
+                                   <tr>
+                                       <td>
+                                           @Html.DisplayFor(x=>item.Produto)
+                                       </td>
+                                       <td>
+                                           @(item.Valor.ToString("C2"))
+                                       </td>
+                                       <td>
+                                           @Html.DisplayFor(x=>item.Quantidade)
+                                       </td>
+                                       <td>
+                                           @(item.ValorFinal().ToString("C2"))                                           
+                                       </td>
+                                       <td>
+                                           <button type="button" data-dismiss="modal" id="btn-ativo" data-ativo="@Url.Action("ApagarConsumo", "Reservas", new { reservaId = (object)ViewBag.ReservaId, quartoId=(object)ViewBag.QuartoId, id=item.Id })" class="btn btn-default btn-fab btn-round mr-2 btn-ativo" data-toggle="tooltip" title="Excluir">
+                                               <i class="material-icons">clear</i>
+                                           </button>
+                                       </td>
+                                   </tr>
+                               }
+                           </tbody>
+                       </table>
+                   </div>
+                </div>
+            </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-info">Salvar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    var patternData = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/;
+    $(document).ready(function () {
+        $('#Data').val('@Model.Data.ToString("yyyy-MM-dd")');
+        $('#DataFinal').val('@Model.DataFinal.ToString("yyyy-MM-dd")');
+
+        $('.quartos-disponiveis').select2();
+        $('.clientes').select2();
+    }).on('click', '.buscar-quartos', function () {
+        var data = {
+            Data: $('#Data').val(),
+            DataFinal: $('#DataFinal').val()
+        }
+        if (patternData.test(data.Data) && patternData.test(data.DataFinal)) {
+            var select = $('.quartos-disponiveis');
+            select.html('');
+            $.post('@Url.Action("BuscarQuartos")', data, function (data) {
+                $(data).each(function () {
+                    select.append('<option ' + (this.Selected ? 'Selected' : '') + ' value="' + this.Value + '">' + this.Text + '</option>');
+                });
+            });
+        }
+    }).on('change', '#QuartoId', function () {
+        var data = {
+            quartoId: $(this).val(),
+            Data1: $('#Data').val(),
+            Data2: $('#DataFinal').val()
+
+        };
+        if (patternData.test(data.Data1) && patternData.test(data.Data2)) {
+            $.post('@Url.Action("CalcularValor")', data, function (valor) {
+                $('#valorFinal').text(valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));;
+            });
+        }
+    });
+</script>

@@ -1,0 +1,37 @@
+﻿<div class="logo">
+    <a href="@Url.Action("Index", "Home", new{ area = "Recepcao"})" class="simple-text logo-normal">
+        MENU
+    </a>
+</div>
+<div class="sidebar-wrapper">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Index", "Home", new{ area = "Recepcao"})">
+                <i class="material-icons">dashboard</i>
+                <p>Home</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Index", "Reservas", new{ area = "Recepcao"})">
+                <i class="material-icons">date_range</i>
+                <p>Reservas</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Index", "Clientes", new{ area = "Recepcao"})">
+                <i class="material-icons">people_alt</i>
+                <p>Clientes</p>
+            </a>
+        </li>
+        @if (User.IsInRole("Gerente"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Home", new { area = "Gerente" })">
+                    <i class="material-icons">insights</i>
+                    <p>Gerência</p>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+

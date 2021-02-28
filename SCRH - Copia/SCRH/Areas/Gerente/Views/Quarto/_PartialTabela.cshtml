@@ -1,0 +1,77 @@
+﻿@using SCRH.Models
+@using PagedList.Mvc
+@model PagedList.PagedList<Quarto>
+@{
+    var paginaAtual = (int)TempData["Pagina"];
+}
+
+<div class="table-responsive">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <b>Nº</b>
+                    </th>
+                    <th>
+                        <b>Categoria</b>
+                    </th>
+                    <th>
+                        <b>Disponível</b>
+                    </th>
+                    <th>
+                        <b>Valor</b>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var quarto in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => quarto.NumeroDoQuarto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => quarto.Categoria.Nome)
+                    </td>
+                    <td>
+                        @(quarto.IsDisponivel() ? "Sim" : "Não")
+                    </td>
+                    <td>
+                        @(quarto.ValorDiaria.ToString("C2"))
+                    </td>
+                    <td class="text-right">
+                        <button type="button" id="btn-atualizar" data-abrirmodal="@Url.Action("AbrirDetalhes", "Quarto", new { id = quarto.Id })" class="btn btn-default btn-fab btn-round mr-2 btn-abrirModal" data-toggle="tooltip" title="Detalhes">
+                            <i class="material-icons">description</i>
+                        </button>
+                        <button type="button" id="btn-atualizar" data-abrirmodal="@Url.Action("AbrirModalAtualizar", "Quarto", new { id = quarto.Id })" class="btn btn-default btn-fab btn-round mr-2 btn-abrirModal" data-toggle="tooltip" title="Atualizar">
+                            <i class="material-icons">create</i>
+                        </button>
+                        <button type="button" id="btn-excluir" data-abrirmodal="@Url.Action("AbrirModalExcluir", "Quarto", new { id = quarto.Id })" class="btn btn-default btn-fab btn-round btn-abrirModal" data-toggle="tooltip" title="Excluir">
+                            <i class="material-icons">clear</i>
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-center">
+            <h3>Nenhuma Informação Encontrada!</h3>
+        </div>
+    }
+</div>
+
+
+<div class="row">
+    <div class="col-12 mt-5">
+        <div id="pageLink" class=" float-right" data-paginaatual="@paginaAtual" style="margin-top:-20px !important;">
+            @Html.PagedListPager(Model, pagina => Url.Action("BuscarQuarto", "Quarto", new { pagina = pagina }), new PagedListRenderOptions { LinkToPreviousPageFormat = "«", LinkToNextPageFormat = "»" })
+        </div>
+    </div>
+</div>

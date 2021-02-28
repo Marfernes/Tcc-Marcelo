@@ -1,0 +1,99 @@
+﻿@model SCRH.Models.Reserva
+
+
+
+
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="TituloModalCentralizado">Atualizar Reserva</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+
+            @using (Html.BeginForm("Atualizar", "Home", FormMethod.Post, new { }))
+            {
+                @Html.HiddenFor(x => x.Id)
+                @Html.Hidden("UsuarioId", (string)ViewBag.UsuarioId)
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">@Html.DisplayNameFor(x => x.Data)</label>
+                            @Html.TextBoxFor(x => x.Data, new { @class = "form-control", type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">@Html.DisplayNameFor(x => x.DataFinal)</label>
+                            @Html.TextBoxFor(model => model.DataFinal, new { @class = "form-control", type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Valor</label>
+                            <div class="form-control" id="valorFinal">@(Model.ValorFinal().ToString("C2"))</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="bmd-label-floating">Dormitório</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend form-control">
+                            @Html.DropDownList("QuartoId", null, htmlAttributes: new { @class = "quartos-disponiveis" })
+                        </div>
+                        <div class="input-group-btn">
+                            <span class="btn btn-sm btn-info buscar-quartos">
+                                <span class="fa fa-refresh"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-info">Salvar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    var patternData = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/;
+    $(document).ready(function () {
+        $('#Data').val('@Model.Data.ToString("yyyy-MM-dd")');
+        $('#DataFinal').val('@Model.DataFinal.ToString("yyyy-MM-dd")');
+
+        $('.quartos-disponiveis').select2();
+        $('.clientes').select2();
+    }).on('click', '.buscar-quartos', function () {
+        var data = {
+            Data: $('#Data').val(),
+            DataFinal: $('#DataFinal').val()
+        }
+        if (patternData.test(data.Data) && patternData.test(data.DataFinal)) {
+            var select = $('.quartos-disponiveis');
+            select.html('');
+            $.post('@Url.Action("BuscarQuartos")', data, function (data) {
+                $(data).each(function () {
+                    select.append('<option ' + (this.Selected ? 'Selected' : '') + ' value="' + this.Value + '">' + this.Text + '</option>');
+                });
+            });
+        }
+    }).on('change', '#QuartoId', function () {
+        var data = {
+            quartoId: $(this).val(),
+            Data1: $('#Data').val(),
+            Data2: $('#DataFinal').val()
+
+        };
+        if (patternData.test(data.Data1) && patternData.test(data.Data2)) {
+            $.post('@Url.Action("CalcularValor")', data, function (valor) {
+                $('#valorFinal').text(valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));;
+            });
+        }
+    });
+</script>

@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+@section styles{
+    @RenderSection("styles", required: false)
+}
+
+@section Menu {
+    @Html.Partial("_Menu")
+}
+
+@RenderBody()
+
+@section scripts{
+    @RenderSection("scripts", required: false)
+}

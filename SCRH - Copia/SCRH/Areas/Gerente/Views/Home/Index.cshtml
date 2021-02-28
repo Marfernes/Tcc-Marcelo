@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Gerência";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">
+                            assessment
+                        </i>
+                    </div>
+                    <p class="card-category">Quartos ocupados/reservados (hoje)</p>
+                    <h3 class="card-title quartos-ocupados">
+                        0/0
+                    </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons text-danger">warning</i>
+                        <a href="@Url.Action("Index","Quarto")">Adicionar mais quartos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">store</i>
+                    </div>
+                    <p class="card-category">Fluxo de caixa</p>
+                    <h3 class="card-title caixa-ultimosd30-dias">R$0,00</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">date_range</i> Últimos 30 dias
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">pending_actions</i>
+                    </div>
+                    <p class="card-category">Agendamentos</p>
+                    <h3 class="card-title agendamentos">0</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">local_offer</i> Reservas agendadas
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">
+                            event_available
+                        </i>
+                    </div>
+                    <p class="card-category">Diárias</p>
+                    <h3 class="card-title total-diarias-ultimos-30-dias">0</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">update</i> Diárias nos últimos 30 dias
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $.post('@Url.Action("Resumo")', function (data) {
+                $('.quartos-ocupados').text(data.TotalQuartosOcupados + '/' + data.TotalQuartos);
+                $('.agendamentos').text(data.Agendamentos);
+                $('.total-diarias-ultimos-30-dias').text(data.TotalDiariasUltimos30Dias);
+                $('.caixa-ultimosd30-dias').text(data.CaixaUltimos30Dias.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));
+            })
+        });
+    </script>
+    }

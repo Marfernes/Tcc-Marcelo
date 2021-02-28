@@ -1,0 +1,89 @@
+﻿@using SCRH.Models
+@using PagedList.Mvc
+@model PagedList.PagedList<Usuario>
+@{
+    var paginaAtual = (int)TempData["Pagina"];
+}
+
+<div class="table-responsive">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <b>Nome</b>
+                    </th>
+                    <th>
+                        <b>Perfil</b>
+                    </th>
+                    <th>
+                        <b>Ativo</b>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => usuario.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => usuario.TipoUsuario)
+                        </td>
+                        <td>
+                            @if (usuario.Ativo == true)
+                            {
+
+                                <span class="badge badge-pill badge-success">Sim</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-pill badge-danger">Não</span>
+                            }
+                        </td>
+                        <td class="text-right">
+                            @if (usuario.Ativo == true)
+                            {
+                                <button type="button" id="btn-ativo" data-ativo="@Url.Action("Ativo", "Usuario", new { usuarioId = usuario.UsuarioId })" class="btn btn-default btn-fab btn-round mr-2" data-toggle="tooltip" title="Desativar">
+                                    <i class="material-icons">not_interested</i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" id="btn-ativo" data-ativo="@Url.Action("Ativo", "Usuario", new { usuarioId = usuario.UsuarioId })" class="btn btn-default btn-fab btn-round mr-2" data-toggle="tooltip" title="Ativar">
+                                    <i class="material-icons">check_circle_outline</i>
+                                </button>
+                            }
+
+                            <button type="button" id="btn-atualizar" data-abrirmodal="@Url.Action("AbrirModalAtualizar", "Usuario", new { usuarioId = usuario.UsuarioId })" class="btn btn-default btn-fab btn-round mr-2 btn-abrirModal" data-toggle="tooltip" title="Atualizar">
+                                <i class="material-icons">create</i>
+                            </button>
+                            <button type="button" id="btn-excluir" data-abrirmodal="@Url.Action("AbrirModalExcluir", "Usuario", new { usuarioId = usuario.UsuarioId })" class="btn btn-default btn-fab btn-round btn-abrirModal" data-toggle="tooltip" title="Excluir">
+                                <i class="material-icons">clear</i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-center">
+            <h3>Nenhuma Informação Encontrada!</h3>
+        </div>
+    }
+</div>
+
+
+<div class="row">
+    <div class="col-12 mt-5">
+        <div id="pageLink" class=" float-right" data-paginaatual="@paginaAtual" style="margin-top:-20px !important;">
+            @Html.PagedListPager(Model, pagina => Url.Action("BuscarUsuario", "Usuario", new { pagina = pagina }), new PagedListRenderOptions { LinkToPreviousPageFormat = "«", LinkToNextPageFormat = "»" })
+        </div>
+    </div>
+</div>

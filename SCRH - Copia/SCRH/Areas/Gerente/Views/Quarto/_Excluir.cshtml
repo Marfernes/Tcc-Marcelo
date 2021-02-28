@@ -1,0 +1,35 @@
+﻿@model SCRH.Models.Quarto
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Excluir Quarto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-danger">
+                <span>
+                    <b>Deseja excluir o cadastro?</b>
+                </span>
+            </div>
+            @using (Html.BeginForm("Excluir", "Quarto", FormMethod.Post, new { }))
+            {
+                @Html.HiddenFor(x => x.Id)
+                <dl>
+                    <dt>@Html.DisplayNameFor(x => x.NumeroDoQuarto)</dt>
+                    <dd>@Html.DisplayFor(x => x.NumeroDoQuarto)</dd>
+                    <dt>@Html.DisplayNameFor(x => x.ValorDiaria)</dt>
+                    <dd>@Html.DisplayFor(x => x.ValorDiaria)</dd>
+                    <dt>@Html.DisplayNameFor(x => x.CategoriaId)</dt>
+                    <dd>@Html.DisplayFor(x => x.Categoria.Nome)</dd>
+                </dl>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

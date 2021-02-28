@@ -1,0 +1,61 @@
+﻿@using SCRH.Models
+@model IEnumerable<Quarto>
+
+@{    
+    var data = (DateTime)ViewBag.De;
+    var dataFim = (DateTime)ViewBag.Ate;
+    var mes = System.Globalization.DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames[data.Month - 1];
+    mes = mes.Substring(0, 1).ToUpper() + mes.Substring(1);
+    var mesFim = System.Globalization.DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames[dataFim.Month - 1];
+    mesFim = mesFim.Substring(0, 1).ToUpper() + mesFim.Substring(1);
+
+    var diarias = (dataFim - data).Days + 1;
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td width="150">
+                    <div class="small font-weight-light font-italic">De:</div>
+                    <div>
+                        <span class="h2">@(data.Day)</span><span class="h4 font-weight-light">/@(mes)</span>
+                    </div>
+                    <div>
+                        @System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames[(int)data.DayOfWeek]
+                    </div>
+                    <div class="small font-weight-light border-top font-italic">Até:</div>
+                    <div>
+                        <span class="h2">@(dataFim.Day)</span><span class="h4 font-weight-light">/@(mesFim)</span>
+                    </div>
+                    <div>
+                        @System.Globalization.DateTimeFormatInfo.CurrentInfo.DayNames[(int)dataFim.DayOfWeek]
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-12">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-12 col-sm-4 col-md-3">
+                                    <div class="border rounded text-center btn btn-block btn-abrirModal" data-toggle="modal" data-target=".abrir-modal" data-abrirmodal="@Url.Action("AbrirModalLogin", "Home", new { })">
+                                        <span class="font-weight-bold">@(item.NumeroDoQuarto)</span>
+                                        <div class="small">@Html.DisplayFor(x => item.Categoria.Nome)</div>
+                                        <div class="font-weight-normal border-top">
+                                            Diária(s) @(diarias)
+                                        </div>
+                                        <div class="font-weight-light">
+                                            @(item.ValorDiaria.ToString("C2"))/dia
+                                        </div>
+                                        <div class="font-weight-bold">Total: @((diarias*item.ValorDiaria).ToString("C2"))</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

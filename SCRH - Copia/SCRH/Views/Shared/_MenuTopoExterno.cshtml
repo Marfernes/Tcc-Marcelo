@@ -1,0 +1,30 @@
+﻿<nav class="navbar navbar-expand-md navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="@Url.Action("Index","Home")">
+            SCRH
+        </a>
+        <a class="navbar-toggler" href="javascript:;" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mr-2">
+                    <div class="input-group input-group-sm mt-1">
+                        <input type="date" id="de" name="de" class="form-control" />
+                        <input type="date" id="ate" name="ate" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-info btn-buscar-data">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="btn-abrirModal btn btn-outline-primary" href="javascript:;" data-toggle="modal" data-target=".abrir-modal" data-abrirmodal="@Url.Action("AbrirModalLogin", "Home", new { })"><i class="fa fa-hand-o-right">&nbsp;</i> Acessar conta</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

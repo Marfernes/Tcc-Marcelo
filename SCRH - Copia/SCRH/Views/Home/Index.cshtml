@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SCRH.Models.Quarto>
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Quartos disponíveis</h4>
+            <div class="carregar-itens" data-url="@Url.Action("BuscarQuartos", "Home")">
+                @Html.Partial("_PartialTabela")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal abrir-modal"></div>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/carregar-modal")
+    @Scripts.Render("~/bundles/buscar-disponiveis")
+    <script>
+        $(document).ready(function () {
+            $(document).on("keyup", "#confirmacaosenha", function () {
+                var senha = $(".cadastrar#Senha").val();
+                var confirmacaosenha = $("#confirmacaosenha").val();
+                if (senha === confirmacaosenha) {
+                    $(".msg").empty();
+                    $(".btn-cadastrarlogin").removeAttr("disabled");
+                }
+                else {
+                    $(".btn-cadastrarlogin").attr("disabled", "disabled");
+                    $(".msg").html("<p style='color:red;'>As senhas são diferentes</p>");
+                }
+            });
+            $(document).on("click", "button[type = 'submit']", function () {
+                $(".modal").LoadingOverlay("show");
+            });
+        });
+    </script>
+}

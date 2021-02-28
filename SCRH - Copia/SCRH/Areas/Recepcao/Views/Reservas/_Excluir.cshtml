@@ -1,0 +1,36 @@
+﻿@model SCRH.Models.Reserva
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Excluir Quarto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-danger">
+                <span>
+                    <b>Deseja excluir o cadastro?</b>
+                </span>
+            </div>
+            @using (Html.BeginForm("Excluir", "Reservas", FormMethod.Post, new { }))
+            {
+                @Html.HiddenFor(x => x.Id)
+                @Html.Hidden("QuartoId",Request["quartoId"])
+                <dl>
+                    <dt>@Html.DisplayNameFor(x => x.DataDeEntrada)</dt>
+                    <dd>@Html.DisplayFor(x => x.DataDeEntrada)</dd>
+                    <dt>@Html.DisplayNameFor(x => x.DataDeSaida)</dt>
+                    <dd>@Html.DisplayFor(x => x.DataDeSaida)</dd>
+                    <dt>@Html.DisplayNameFor(x => x.UsuarioId)</dt>
+                    <dd>@Html.DisplayFor(x => x.Usuario.Nome)</dd>
+                </dl>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
